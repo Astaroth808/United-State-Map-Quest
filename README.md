@@ -2,7 +2,7 @@
 
 A free map game that teaches elementary schoolers (grades K–5) all 50 U.S. states.
 
-**The whole game is one HTML file.** Download [`us-map-quest.html`](us-map-quest.html), open it in any browser, and it works — no install, no account, no internet connection. Good for classroom laptops and Chromebooks on a slow day, or a tablet on a plane.
+**The whole game is one HTML file.** Download [`index.html`](index.html), open it in any browser, and it works — no install, no account, no internet connection. Good for classroom laptops and Chromebooks on a slow day, or a tablet on a plane.
 
 ![The map and the six activities](docs/screenshot-home.png)
 
