@@ -2,7 +2,7 @@
 
 A free map game that teaches elementary schoolers (grades K–5) all 50 U.S. states.
 
-**The whole game is one HTML file.** Download [`index.html`](index.html), open it in any browser, and it works — no install, no account, no internet connection. Good for classroom laptops and Chromebooks on a slow day, or a tablet on a plane.
+**The whole game is one HTML file.** Download [`us-map-quest.html`](us-map-quest.html), open it in any browser, and it works — no install, no account, no internet connection. Good for classroom laptops and Chromebooks on a slow day, or a tablet on a plane.
 
 ![The map and the six activities](docs/screenshot-home.png)
 
@@ -19,10 +19,15 @@ A free map game that teaches elementary schoolers (grades K–5) all 50 U.S. sta
 
 ![The compass mode](docs/screenshot-compass.png)
 
+## The board, and the compass that never moves
+
+The map is drawn as a slightly tilted board with a visible edge, like a puzzle on a table. It is a vertical squash only — nothing is rotated — so north stays straight up and every direction answer still matches what a child sees. A **Tilted / Flat** switch on the home screen turns it off for anyone who prefers the plain map (small states are a little easier to tap flat). A compass rose sits permanently in the open Atlantic southeast of Florida: it never tilts, never moves, and covers no state. In Which Way? it lights up the direction a question asks about, which is why nothing is drawn over the states themselves.
+
 ## Two levels, and smaller maps
 
 - **Easy** — tap to answer, names shown on puzzle pieces, four cardinal directions, extra hints after a miss.
 - **Hard** — type state names (small spelling mistakes are forgiven), no names on the pieces, and all eight directions including northeast, northwest, southeast and southwest.
+- **Map** — tilted board or flat; the setting sticks.
 - **Regions** — play the whole country or just the Northeast, Southeast, Midwest, Southwest or West, so a first grader isn't facing 50 pieces at once.
 
 Rounds are 10 questions and end with 1–3 stars, a list of states to practice, and confetti. Best scores are remembered in the browser.

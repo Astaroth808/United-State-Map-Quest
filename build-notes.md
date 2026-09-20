@@ -31,6 +31,21 @@ A private online copy was also published as an Artifact (same content) for quick
 - **Accepting:** an answer counts when it is within 33.75° of the direction — a little looser than the question, so sensible answers are not rejected. A wrong answer is told what direction it actually is ("California is west of Iowa — I need one that's east"), which is where the learning happens.
 - Alaska and Hawaii are drawn in inset boxes, so their map position is not their real position. They are left out of direction questions, and tapping them explains why.
 
+## The tilted board (added Sept 20, 2026)
+- `MapView` keeps a `TILT` factor: 1 = flat, 0.85 = tilted. Drawing y = `305*(1-TILT) + TILT*y`; `ty()` and `iy()` convert both ways, and `toMap()` un-leans pointer positions so every caller still works in plain map coordinates.
+- Only the board group is squashed (land, coastline, tap boxes, hover outline, the on-map compass rose). Labels, capital stars, pulses, arrows and the corner compass are positioned through `ty()` but never squashed, so text stays upright.
+- The land's edge is a second copy of every state path, offset down by `DEPTH / TILT` and painted slate; it shows only when tilted (`.map.tilted .walls`).
+- Puzzle pieces and the shape cards in Name That State are squashed by the same factor so a piece looks like its slot.
+- **Why a squash and not a real isometric view:** a true isometric map is rotated 45°, which puts north up-and-to-the-right and turns every direction answer sideways. Squashing keeps north up. The cost is that diagonals flatten a little: at 0.85, a northeast pair looks like about 50° instead of 45°, which is close enough to read correctly; at 0.62 it becomes ~58° and starts to fight the compass lesson, which is why 0.85 is the setting shipped.
+- A fixed compass rose lives at (903, 494) — open ocean southeast of Florida in both the flat and tilted layouts, so it covers no state. It has `pointer-events: none`, and `MapView.badgeDir(k)` lights one of its arms orange.
+- `Map: Tilted / Flat` on the home screen writes `settings.tilt`; `MapView.setTilt()` re-lays labels, stars, the viewBox and the compass.
+
+### Why Which Way? draws no compass on the map (Sept 20, 2026)
+The first version put a compass rose on the state being asked about. At map scale that rose is up to 96 units across, which buries Connecticut, Rhode Island, New Jersey and their neighbours. It is gone: the question's direction is now lit on the fixed corner compass instead, so the cue never sits on a state and children always read direction from the same place. `MapView.rose()` is still in the file, unused, if a big-state use ever turns up. The dashed arrow between the two states in an "A is ___ of B" question stays — it is a thin line and it is the question's mechanism. On those questions the corner compass stays neutral until the answer is given, since the direction *is* the answer.
+
+### Typed answers: the Check button used to swallow the next one (fixed Sept 20, 2026)
+Clicking **Check** with a mouse moves focus from the text box onto the button. Whatever the player typed next went nowhere — the box stayed empty — and pressing Enter then submitted an empty form, which the old code ignored in silence. It looked exactly like "I type a state and nothing happens", and it bit hardest in Which Way? and Neighbor Detective, where one question takes two or more typed answers. `bindAnswer()` now hands focus back to the box after every submit (unless the inputs have been locked), says "Type a state name in the box first" instead of ignoring an empty submit, and focuses a new question's box immediately rather than 60 ms later, which was long enough to eat the first letters. The input's `enterkeyhint` changed from `done` to `go`, since on a phone keyboard "done" only closes the keyboard while "go" submits.
+
 ## Map data
 - Outlines: `us-atlas@3/states-albers-10m.json` (U.S. Census Bureau cartographic boundaries — public domain; package ISC license). Pre-projected Albers USA, 975×610, Alaska and Hawaii insets. Uploaded by Altezza because Claude's sandbox has no internet.
 - Neighbors: the standard school list of land borders (Four Corners diagonal pairs like AZ–CO are NOT neighbors). Cross-checked against borders computed from the map topology: 0 differences.
@@ -53,6 +68,7 @@ Headless Chromium with every network request blocked: 0 requests attempted, 0 co
 
 ## Ideas for the next version
 - Capitals quiz (capital data is already in the file).
+- Optional deeper tilt for the puzzle only, where angles do not matter.
 - Direction questions that use rivers, coasts or regions ("name a state on the west coast").
 - Zoom button or pinch-zoom for the small Northeast states on tablets.
 - Teacher options: round length, pick specific states, turn timer off.
